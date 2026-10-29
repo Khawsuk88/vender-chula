@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 118" role="img" aria-labelledby="title">
+<title id="title">Vender Chula</title>
+<defs><clipPath id="r"><rect x="2" y="3" width="105" height="105" rx="23"/></clipPath></defs>
+<g clip-path="url(#r)">
+<rect x="2" y="3" width="105" height="105" fill="#F58CBA"/>
+<path d="M2 3 L107 108 L2 108Z" fill="#E95A9A"/>
+<path d="M2 3 L107 3 L107 108Z" fill="#F6A2C7" opacity=".55"/>
+</g>
+<path d="M26 33 Q23 27 30 27 H40 Q45 27 48 33 L55 49 L63 33 Q66 27 72 27 H81 Q88 27 84 34 L61 78 Q55 89 49 78Z" fill="white"/>
+<text x="127" y="75" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="76" letter-spacing="-4" fill="#17191F">vender</text>
+<text x="254" y="103" font-family="Arial,Helvetica,sans-serif" font-size="20" letter-spacing="11" fill="#E95A9A">CHULA</text>
+</svg>

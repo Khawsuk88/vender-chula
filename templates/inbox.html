@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Messages{% endblock %}{% block content %}
+<div class="panel"><h1>💬 Your messages</h1><p class="muted">Private conversations about your listings.</p>
+{% for t in threads %}<a class="thread-link" href="{{url_for('conversation',cid=t.id)}}">
+<strong>{{t.partner}}</strong> · {{t.title}} {% if t.unread %}<span class="unread">{{t.unread}} new</span>{% endif %}
+<p class="muted">{{t.last_body or 'Start the conversation'}}</p></a>
+{% else %}<p>No messages yet. Open a listing and select “Chat with seller”.</p>{% endfor %}
+</div>{% endblock %}

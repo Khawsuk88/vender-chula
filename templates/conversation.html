@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block title %}Chat{% endblock %}{% block content %}
+<div class="panel chat-panel">
+<p><a href="{{url_for('inbox')}}">← Inbox</a></p>
+<h2>{{thread.partner}}</h2><p class="muted">About <a href="{{url_for('listing',lid=thread.listing_id)}}">{{thread.title}}</a> · ฿{{'{:,}'.format(thread.price)}}</p>
+{% if thread.status=='sold' %}<p class="flash">This listing is marked sold.</p>{% endif %}
+<div class="chat-messages" id="messages">{% for m in messages %}
+<div class="bubble {% if m.sender_id==me.id %}mine{% endif %}"><div>{{m.body}}</div><small>{{m.created_at}} UTC</small></div>
+{% else %}<p class="muted">Say hello! Keep payment details private and meet in public.</p>{% endfor %}</div>
+{% if blocked %}<p class="flash">Messaging is disabled because one participant blocked the other.</p>
+{% else %}<form method="post" class="chat-compose">
+<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<textarea name="body" required maxlength="2000" rows="2" placeholder="Type a message..."></textarea>
+<button class="btn" type="submit">Send</button></form>{% endif %}
+<form method="post" action="{{url_for('block_chat',cid=thread.id)}}" onsubmit="return confirm('Block this user from messaging you?')">
+<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<button class="linkbtn" type="submit">Block user</button></form>
+<p class="muted smalltext">Never share passwords or verification codes. Report suspicious listings to the moderation team.</p>
+</div>{% endblock %}

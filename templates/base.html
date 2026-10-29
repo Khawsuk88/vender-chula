@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Vender{% endblock %} · Chula student marketplace</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+</head>
+<body>
+<header class="site-header"><div class="wrap nav">
+<a class="logo brand-lockup" href="/" aria-label="Vender Chula home"><img src="{{ url_for('static',filename='vender-logo.svg') }}" alt="Vender Chula"></a>
+<nav aria-label="Main navigation">
+<a href="/">Browse</a>
+{% if me %}
+<a href="/dashboard">My listings</a><a href="/favorites">Saved</a><a href="/messages">Messages</a>
+<a class="btn small" href="/listing/new">+ Sell an item</a>
+{% if me.is_admin %}<a href="/admin">Moderation</a>{% endif %}
+<form method="post" action="/logout" class="inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="linkbtn" type="submit">Log out</button></form>
+{% else %}
+<a href="/login">Log in</a><a href="/register">Register</a><a class="btn small" href="/register">Sell an item</a>
+{% endif %}
+</nav></div></header>
+<main class="wrap">
+{% with messages=get_flashed_messages() %}{% for msg in messages %}<div class="flash">{{msg}}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer class="wrap">© Vender Chula · Made for students. Meet in a safe public place and inspect items before paying.</footer>
+</body></html>

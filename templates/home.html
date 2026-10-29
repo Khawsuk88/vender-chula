@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero v5-hero">
+  <span class="eyebrow">MADE FOR CHULA STUDENTS</span>
+  <h1>Buy less. Save more. Sell easily.</h1>
+  <p>Find great deals from students on campus.</p>
+  <form class="v5-search" method="get" action="/">
+    <label class="sr-only" for="vender-search">Search items</label>
+    <span aria-hidden="true" class="search-icon">⌕</span>
+    <input id="vender-search" name="q" value="{{q or ''}}" placeholder="Search textbooks, electronics, clothes..." autocomplete="off">
+    <button class="btn" type="submit">Search</button>
+  </form>
+</section>
+<div class="category-pills" aria-label="Browse categories">
+  <a class="category-pill {% if not brand %}active{% endif %}" href="{{url_for('home')}}">All items</a>
+  {% for c in categories %}
+  <a class="category-pill {% if brand==c %}active{% endif %}" href="{{url_for('home',category=c)}}">{{c}}</a>
+  {% endfor %}
+</div>
+<details class="v5-filters" {% if max_price or listing_type or (sort and sort != 'newest') %}open{% endif %}>
+<summary>More filters</summary>
+<form class="v5-filter-form" method="get" action="/">
+  <input type="hidden" name="q" value="{{q or ''}}">
+  <label>Category<select name="category"><option value="">All categories</option>{% for c in categories %}<option value="{{c}}" {% if brand==c %}selected{% endif %}>{{c}}</option>{% endfor %}</select></label>
+  <label>Post type<select name="listing_type"><option value="">All posts</option><option value="selling" {% if listing_type=='selling' %}selected{% endif %}>For sale</option><option value="wanted" {% if listing_type=='wanted' %}selected{% endif %}>Wanted</option></select></label>
+  <label>Max price (฿)<input type="number" name="max_price" min="0" value="{{max_price or ''}}" placeholder="Any price"></label>
+  <label>Sort<select name="sort"><option value="newest" {% if sort=='newest' %}selected{% endif %}>Newest</option><option value="price_asc" {% if sort=='price_asc' %}selected{% endif %}>Price: low to high</option><option value="price_desc" {% if sort=='price_desc' %}selected{% endif %}>Price: high to low</option></select></label>
+  <button class="btn" type="submit">Apply filters</button>
+</form>
+</details>
+<div class="section-heading v5-heading"><div><h2>Recently listed</h2><p class="muted">Discover what students are selling.</p></div><a class="btn outline" href="/listing/new">+ Post an item</a></div>
+<div class="cards v5-cards">
+{% for l in listings %}
+<a class="card" href="/listing/{{l.id}}">
+  <div class="photo">{% if l.photo %}<img src="{{url_for('static',filename='uploads/'+l.photo)}}" alt="{{l.title}}" loading="lazy">{% else %}<div class="placeholder">📦</div>{% endif %}</div>
+  <div class="cardbody">
+    <div class="price">{% if l.listing_type=='wanted' %}Budget: {% else %}฿{% endif %}{{'{:,}'.format(l.price) if l.price else 'Open to offers'}}</div>
+    <h3>{{l.title}}</h3>
+    {% if l.status=="sold" %}<span class="tag">Sold</span>{% endif %}
+    <p>{{l.category}} · {{l.location}}</p>
+    <div class="sellerline">{{l.name}} <span class="tag">{{'Wanted' if l.listing_type=='wanted' else 'For sale'}}</span></div>
+  </div>
+</a>
+{% else %}
+<div class="empty">No listings found. <a href="/listing/new">Post the first one!</a></div>
+{% endfor %}
+</div>
+{% if listings|length == 25 %}
+<p class="v5-pagination"><a class="btn outline" href="{{url_for('home',q=q,category=brand,max_price=max_price,listing_type=listing_type,sort=sort,page=page+1)}}">Next page →</a></p>
+{% endif %}
+{% endblock %}
