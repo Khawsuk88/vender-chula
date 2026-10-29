@@ -2,3 +2,4 @@ Flask>=3.0,<4
 Werkzeug>=3.0,<4
 Pillow>=10,<13
 python-dotenv>=1,<2
+gunicorn>=22,<24
